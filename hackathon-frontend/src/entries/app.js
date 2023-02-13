@@ -20,7 +20,7 @@ new Vue({
   data: () => ({
     search: null,
     searched: [],
-    users: [
+    items: [
       {
         id: 1,
         name: "Sovellus 1",
