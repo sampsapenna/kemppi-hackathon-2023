@@ -1,87 +1,212 @@
 """Kemppi hackaton backend server."""
-import flask 
-import minio
+
+import typing
 import hashlib
 import os
-from flask import Flask, request, render_template, send_from_directory
+import secrets
+import datetime
+
+import minio
+
+import flask 
+
+import flask_login
+
+
+app = flask.Flask(__name__)
+
+app.secret_key = secrets.token_bytes(64)
+
+login_manager = flask_login.LoginManager()
+login_manager.init_app(app)
 
 
 client = minio.Minio(
     "localhost:9000",
     access_key="minioadmin",
     secret_key="minioadmin",
+    secure=False,
 )
 
 
-app = flask.Flask(__name__)
-@app.route('/')
-def hello_world():
-    return 'Hello world!'
+class APPUser(flask_login.UserMixin):
+    def __init__(self, username, customer, password="", admin=False):
+        """Initialize a new user."""
+        self._customer = customer
+        self._salt = secrets.token_bytes(16)
+        self._admin = admin
+        if admin:
+            self.id = "admin"
+        else:
+            self.id = username
+        self._hashed_password = hashlib.blake2b(
+            password.encode("utf-8"),
+            salt=self._salt,
+        ).hexdigest()
+
+    @property
+    def is_admin(self):
+        return self._admin
+ 
+    def set_password(self, password):
+        """Set password for application user."""
+        self._hashed_password = hashlib.blake2b(
+            password.encode("utf-8"),
+            salt=self._salt,
+        ).hexdigest()
+    
+    def check_password(self, password) -> bool:
+        """Check if password is correct for this user."""
+        return secrets.compare_digest(
+            self._hashed_password,
+            hashlib.blake2b(
+                password.encode("utf-8"),
+                salt=self._salt,
+            ).hexdigest(),
+        )
+
+    def get_user_info(self):
+        return {
+            "customer": self._customer,
+            "is_admin": self._admin,
+        }
+
+    def get_customer(self):
+        return self._customer
 
 
-@app.route('/')
-def files():
-    return 'files'
+admin_username = os.environ.get("SOFTWARE_MANAGER_ADMIN_USERNAME", "admin")
+admin_raw_password = os.environ.get("SOFTWARE_MANAGER_ADMIN_PASSWORD", "password")
 
 
-app = flask(__name__)
-
-# Käytetään tässä väliaikaista tietokantaa esimerkin helpottamiseksi
 users = {
-    "user1": hashlib.sha256("password1".encode()).hexdigest(),
-    "user2": hashlib.sha256("password2".encode()).hexdigest(),
-    "user3": hashlib.sha256("password3".encode()).hexdigest()
+    admin_username: APPUser("admin", "admin", admin_raw_password, True)
 }
 
-@app.route("/")
-def index():
-    return render_template("login.html")
+
+@login_manager.user_loader
+def load_user(user_id: str) -> typing.Optional[APPUser]:
+    if user_id not in users:
+        return None
+
+    return users[user_id]
+
+
+@login_manager.request_loader
+def request_loader(request):
+    user_id = request.form.get("username")
+    if user_id not in users:
+        return
+
+    return users[user_id]
+
 
 @app.route("/login", methods=["POST"])
 def login():
-    username = request.form["username"]
-    password = hashlib.sha256(request.form["password"].encode()).hexdigest()
-    if username in users and users[username] == password:
-        return "Login successful"
+    username = flask.request.form["username"]
+    password = flask.request.form["password"]
+    if username in users and users[username].check_password(password):
+        flask_login.login_user(users[username])
+        return flask.redirect(f"/app/{username}/{users[username].get_customer()}")
     else:
-        return "Login failed"
+        return flask.redirect("/unauthorized")
+
+
+@app.route("/app")
+def get_app():
+    return "OK\n"
+
+
+@app.route('/api')
+def get_index():
+    return 'API running!\n'
+
+
+@app.route("/api/admin/admin/users")
+@flask_login.login_required
+def list_users():
+    print(flask_login.current_user.id)
+    if flask_login.current_user.id != "admin":
+        return
+    return flask.jsonify(list(users.keys()))
+
+
+@app.route("/api/admin/admin/users/<username>", methods=["GET", "PUT", "PATCH"])
+@flask_login.login_required
+def handler_user(username=""):
+    if not flask_login.current_user.is_admin:
+        return
+
+    if flask.request.method == "GET":
+        return flask.jsonify(users[username].get_user_info())
+    if flask.request.method == "PATCH":
+        args = flask.request.get_json()
+        users[username].set_password(args["password"])
+        return "OK"
+    if flask.request.method == "PUT":
+        args = flask.request.get_json()
+        if not client.bucket_exists(args["customer"]):
+            client.make_bucket(args["customer"])
+        users[username] = APPUser(username, args["customer"], password=args["password"])
+        return "OK"
+
+
+@app.route("/logout")
+@flask_login.login_required
+def handle_logout():
+    flask_login.logout_user()
+    return flask.redirect("/")
+
+
+@app.route('/api/<username>/<customer>/files')
+@flask_login.login_required
+def list_files(username="", customer=""):
+    if not client.bucket_exists(customer):
+        client.make_bucket(customer)
+    files = client.list_objects(customer)
+    return flask.jsonify(list(files))
+
+
+@app.route(
+    '/api/<username>/<customer>/files/<filename>',
+    methods=["GET", "POST", "PUT", "DELETE"],
+)
+@flask_login.login_required
+def handle_file(username="", customer="", filename=""):
+    """Handle file operations."""
+    if not flask_login.current_user.get_customer() == customer and not flask_login.current_user.is_admin:
+        return "Forbidden, incorrect customer.", 403
+    if flask.request.method == "GET":
+        # Get a pre-signed link to object/file GET
+        return flask.redirect(
+            client.presigned_get_object(
+                customer,
+                filename,
+                datetime.timedelta(days=1),
+            ),
+            307,
+        )
+    if flask.request.method == "PUT":
+        # Get a pre-signed link to object/file PUT
+        return flask.redirect(
+            client.presigned_put_object(
+                customer,
+                filename,
+                datetime.timedelta(days=1),
+            ),
+            307,
+        )
+    if flask.request.method == "POST":
+        # Get a pre-signed link to object/file POST
+        return "not yet implemented"
+    if flask.request.method == "DELETE":
+        # Delete the object from storage
+        client.remove_object(
+            customer,
+            filename,
+        )
+        return "OK"
+
 
 if __name__ == "__main__":
     app.run(debug=True)
-
-    app = Flask(__name__)
-
-# Määrittelee tiedostojen tallennuspaikan
-UPLOAD_FOLDER = "uploads"
-app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER
-
-# Tarkistaa, onko tallennuskansio olemassa, ja luo sen tarvittaessa
-if not os.path.exists(UPLOAD_FOLDER):
-    os.makedirs(UPLOAD_FOLDER)
-
-@app.route("/")
-def index():
-    return render_template("file_upload.html")
-
-@app.route("/upload", methods=["POST"])
-def upload_file():
-    # Ladataan tiedosto
-    file = request.files["file"]
-    if file:
-        # Tallennetaan tiedosto tallennuskansioon
-        file.save(os.path.join(app.config["UPLOAD_FOLDER"], file.filename))
-        return "Tiedoston lataaminen onnistui"
-    else:
-        return "Tiedoston lataaminen epäonnistui"
-
-@app.route("/download/<filename>")
-def download_file(filename):
-    # Lähetetään tiedosto käyttäjälle
-    return send_from_directory(app.config["UPLOAD_FOLDER"], filename)
-
-if __name__ == "__main__":
-    app.run(debug=True)
-
-
-
-
