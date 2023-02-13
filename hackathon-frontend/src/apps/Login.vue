@@ -87,10 +87,12 @@
 
   .card.login {
     background-color: #000;
+    height: 90vh;
   }
 
   .card.register {
     background-color: #000;
+    height: 90vh;
   }
 
   .form-group {
