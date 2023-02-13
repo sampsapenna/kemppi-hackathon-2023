@@ -6,13 +6,9 @@
 </template>
 
 <script>
-import HelloWorld from '@/components/HelloWorld.vue'
 
 export default {
   name: 'IndexApp',
-  components: {
-    HelloWorld
-  }
 }
 </script>
 

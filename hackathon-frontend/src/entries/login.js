@@ -1,14 +1,25 @@
 import Vue from 'vue'
 
-import { VueMaterial } from 'vue-material'
-import 'vue-material/dist/vue-material.min.css'
-import 'vue-material/dist/theme/default.css'
+import IndexApp from '@/apps/Index'
 
-import IndexApp from '@/apps/Index.vue'
+import { BootstrapVue, IconsPlugin } from 'bootstrap-vue'
+
+// Import Bootstrap and BootstrapVue CSS files (order is important)
+import 'bootstrap/dist/css/bootstrap.css'
+import 'bootstrap-vue/dist/bootstrap-vue.css'
+
+import HelloWorld from '@/components/HelloWorld.vue'
 
 Vue.config.productionTip = false
-Vue.use(VueMaterial)
+// Make BootstrapVue available throughout your project
+Vue.use(BootstrapVue)
+// Optionally install the BootstrapVue icon components plugin
+Vue.use(IconsPlugin)
 
 new Vue({
-  render: h => h(IndexApp),
+  name: "index-page",
+  components: {
+    HelloWorld,
+  },
+  ...IndexApp,
 }).$mount('#app')

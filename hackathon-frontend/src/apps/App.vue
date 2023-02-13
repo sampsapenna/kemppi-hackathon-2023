@@ -25,50 +25,9 @@
 </template>
 
 <script>
-
-
-
 export default {
   name: 'TableSearch',
-  data: () => ({
-    search: null,
-    searched: [],
-    users: [
-      {
-        id: 1,
-        name: "Sovellus 1",
-      },
-      {
-        id: 2,
-        name: "Sovellus 2",
-      }
-    ]
-  }),
-  methods: {
-    newUser() {
-      window.alert('Noop')
-    },
-    searchOnTable() {
-      this.searched = this.searchByName(this.users, this.search)
-    },
-
-    toLower(text){
-    return text.toString().toLowerCase()
-    },
-
-    searchByName(items, term){
-    if (term) {
-    return items.filter(item => this.toLower(item.name).includes(this.toLower(term)))
-    }
-
-  return items
 }
-  },
-  created() {
-    this.searched = this.users
-  }
-}
-
 </script>
 
 <style>
