@@ -8,23 +8,25 @@
 </template>
 
 <style>
-#app {
-  justify-content: flex;
-  align-items: flex;
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
 
-.navbar {
-  background-color: black;
-}
+@font-face {
+    font-family: ProximaNovaFont;
+    src: url(@/assets/ProximaNovaFont.otf);
+  }
 
-#navlogo {
-  height: 20%;
-  width: 20%;
-}
+  @font-face {
+    font-family: MyriadProFont;
+    src: url(@/assets/MYRIADPRO-REGULAR.OTF)
+  }
+
+  .navbar {
+    background-color: black;
+    padding: 0;
+  }
+
+  #navlogo {
+    height: 10%;
+    width: 10%;
+  }
+  
 </style>
