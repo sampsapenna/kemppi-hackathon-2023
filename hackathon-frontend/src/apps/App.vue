@@ -1,7 +1,7 @@
 <template>
   <div>
     <nav class="navbar">
-      <img id="logo" alt="Kemppi logo" src="@/assets/Kemppi_logo.png">
+      <img id="navlogo" alt="navlogo" src="@/assets/kemppi_log_neg.png">
     </nav>
     <div>
       <router-view></router-view>
@@ -33,7 +33,7 @@ export default {
   background-color: black;
 }
 
-#logo {
+#navlogo {
   height: 20%;
   width: 20%;
 }
