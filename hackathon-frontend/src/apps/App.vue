@@ -6,6 +6,9 @@
     </nav>
     <div>
       <h1>Application and packages</h1>
+      <div id="search" class="search">
+        <input type="text" class="searchtext" name="searchtext" v-model="search">
+      </div>
       <router-view></router-view>
     </div>
   </div>
@@ -19,8 +22,7 @@
 </script>
 
 <style>
-
-@font-face {
+  @font-face {
     font-family: ProximaNovaFont;
     src: url(@/assets/ProximaNovaFont.otf);
   }
@@ -35,6 +37,10 @@
     padding: 0;
   }
 
+  #search {
+    margin: 30px 30px 30px 30px;
+  }
+
   #navlogo {
     height: 10%;
     width: 10%;
@@ -44,7 +50,6 @@
     text-align: center;
     font-family: ProximaNovaFont;
     margin-top: 2em;
-    margin-bottom: 1em;
   }
 
   a {
