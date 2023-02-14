@@ -1,14 +1,16 @@
 <template>
   <div id="createuser">
     <h2>
-      Edit user {{ $route.params.username }}
+      Editing user {{ $route.params.username }}
     </h2>
+
+    
   </div>
 </template>
   
 <script>
 export default {
-  name: "CreateUser",
+  name: "EditUser",
 }
 </script>
 

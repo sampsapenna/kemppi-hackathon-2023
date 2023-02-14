@@ -3,6 +3,7 @@
     <h2>
       Files for customer {{ $route.params.customer }}
     </h2>
+    <b-button :to="`/app/${$route.params.username}/${$route.params.customer}/upload`">Upload files</b-button>
     <b-table
       sticky-header
       striped

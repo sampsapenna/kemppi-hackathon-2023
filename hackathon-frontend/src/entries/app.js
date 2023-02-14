@@ -12,13 +12,14 @@ import TableSearch from '@/apps/App.vue'
 
 import { app_router } from '@/common/router'
 
+Vue.use(VueRouter)
+
 Vue.config.productionTip = false
 // Make BootstrapVue available throughout your project
 Vue.use(BootstrapVue)
 // Optionally install the BootstrapVue icon components plugin
 Vue.use(IconsPlugin)
 
-Vue.use(VueRouter)
 
 new Vue({  
   name: "main-application",
