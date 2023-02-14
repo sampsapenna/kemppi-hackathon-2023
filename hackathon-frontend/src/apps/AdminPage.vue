@@ -3,7 +3,9 @@
     <nav class="navbar">
       <img id="navlogo" alt="navlogo" src="@/assets/kemppi_log_neg.png">
     </nav>
-    <router-view></router-view>
+    <div id="adminroot">
+      <router-view></router-view>
+    </div>
   </div>
 </template>
 
@@ -32,6 +34,10 @@ body {
 #navlogo {
   height: 10%;
   width: 10%;
+}
+
+#adminroot {
+  margin-top: 33px;
 }
   
 </style>

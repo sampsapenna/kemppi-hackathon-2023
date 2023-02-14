@@ -4,7 +4,7 @@
       <img id="navlogo" alt="navlogo" src="@/assets/kemppi_log_neg.png">
       <b-link id="logout" href="/logout">Logout</b-link>
     </nav>
-    <div>
+    <div id="approot">
       <router-view></router-view>
     </div>
   </div>
@@ -42,6 +42,10 @@ body {
 #navlogo {
   height: 10%;
   width: 10%;
+}
+
+#approot {
+    margin-top: 33px;
 }
 
 #logout {
