@@ -17,7 +17,15 @@
           {{ row.item.name }}
         </b-link>
       </template>
-    </b-table>
+      <template #cell(actions)="row">
+        <b-button
+          style="margin-right: 1%;"
+          variant="danger"
+          @click="deleteFile(row.item.name)"
+        >
+          Delete
+        </b-button>
+      </template>    </b-table>
   </div>
 </template>
   
@@ -30,7 +38,8 @@ export default {
     items: [],
     fields: [
       {key: "name", label: "File name", sortable: true, sortDirection: "desc"},
-      {key: "size", lable: "File Size"},
+      {key: "size", label: "File Size"},
+      {key: "actions", label: "Actions"}
     ]
   }),
   mounted() {
@@ -47,6 +56,20 @@ export default {
       }).then(ret => {
         console.log(ret);
         this.items = ret;
+      })
+    },
+    deleteFile(filename) {
+      let path = `/api/${this.$route.params.username}/${this.$route.params.customer}/files/${filename}`
+      let url = new URL(path, window.location)
+      
+      fetch(
+        url,
+        {
+          method: "DELETE",
+        }
+      ).then(resp => {
+        console.log(resp);
+        this.getFiles();
       })
     }
   },

@@ -71,75 +71,80 @@
 </script>
 
 <style>
+@import '~mdb-ui-kit/css/mdb.min.css';
 
-  @font-face {
-    font-family: ProximaNovaFont;
-    src: url(@/assets/ProximaNovaFont.otf);
-  }
+@font-face {
+  font-family: ProximaNovaFont;
+  src: url(@/assets/ProximaNovaFont.otf);
+}
 
-  @font-face {
-    font-family: MyriadProFont;
-    src: url(@/assets/MYRIADPRO-REGULAR.OTF)
-  }
+@font-face {
+  font-family: MyriadProFont;
+  src: url(@/assets/MYRIADPRO-REGULAR.OTF)
+}
 
-  .navbar {
-    background-color: black;
-    padding: 0;
-  }
+body {
+  font-family: ProximaNovaFont;
+}
 
-  #navlogo {
-    height: 10%;
-    width: 10%;
-  }
+.navbar {
+  background-color: black;
+  padding: 0;
+}
 
-  p {
-    line-height: 1rem;
-    color: #fff;
-    font-size: ProximaNovaFont;
-  }
+#navlogo {
+  height: 10%;
+  width: 10%;
+}
 
-  .card {
-    padding: 5vh;
-  }
+p {
+  line-height: 1rem;
+  color: #fff;
+  font-size: ProximaNovaFont;
+}
 
-  .card.login {
-    background-color: #000;
-    height: 80vh;
-  }
+.card {
+  padding: 5vh;
+}
 
-  .card.register {
-    background-color: #000;
-    height: 80vh;
-  }
+.card.login {
+  background-color: #000;
+  height: 80vh;
+}
 
-  .form-group {
-    align-items: center;
-    margin-top: 10px;
-    margin-bottom: 20px;
-  }
+.card.register {
+  background-color: #000;
+  height: 80vh;
+}
 
-  .form-control {
-    margin-bottom: 20px;
-  }
+.form-group {
+  align-items: center;
+  margin-top: 10px;
+  margin-bottom: 20px;
+}
 
-  .btn.btn-primary {
-    text-align: center;
-    margin-bottom: 20px;
-    background-color: #fff;
-    color: #000;
-  }
+.form-control {
+  margin-bottom: 20px;
+}
 
-  .login-page {
-    justify-content: center;
-    align-items: center;
-    display: flex;
-    height: 100vh;
-  }
+.btn.btn-primary {
+  text-align: center;
+  margin-bottom: 20px;
+  background-color: #fff;
+  color: #000;
+}
 
-  h1 {
-    margin-bottom: 1.5rem;
-    text-align: center;
-    color: #F57300;
-    font-family: ProximaNovaFont;
-  }
+.login-page {
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  height: 100vh;
+}
+
+h1 {
+  margin-bottom: 1.5rem;
+  text-align: center;
+  color: #F57300;
+  font-family: ProximaNovaFont;
+}
 </style>

@@ -13,6 +13,7 @@
     "bootstrap-vue": "^2.23.1",
     "core-js": "^3.8.3",
     "font-proxima-nova": "^1.0.1",
+    "mdb-ui-kit": "^6.1.0",
     "vue": "^2.7.14",
     "vue-router": "^3.6.5"
   },
