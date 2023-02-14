@@ -136,6 +136,8 @@ def login():
         password = flask.request.form["password"]
         if username in users and users[username].check_password(password):
             flask_login.login_user(users[username])
+            if users[username].is_admin:
+                return flask.redirect(f"/admin")
             return flask.redirect(f"/app/{username}/{users[username].get_customer()}")
         else:
             return flask.redirect("/unauthorized")
@@ -186,7 +188,7 @@ def list_users():
 def list_customers():
     if not flask_login.current_user.is_admin:
         return
-    return flask.jsonify(customers)
+    return flask.jsonify(list(customers))
 
 
 @app.route("/api/admin/admin/customers/<customername>", methods=["PUT", "DELETE"])
@@ -199,6 +201,7 @@ def handler_customer(customername=""):
         if not client.bucket_exists(customername):
             client.make_bucket(customername)
         customers.add(customername)
+        return customername
 
     if flask.request.method == "DELETE":
         if client.bucket_exists(customername):
@@ -211,9 +214,10 @@ def handler_customer(customername=""):
             )
             client.remove_bucket(customername)
         customers.remove(customername)
+        return "", 204
 
 
-@app.route("/api/admin/admin/users/<username>", methods=["GET", "PUT", "PATCH"])
+@app.route("/api/admin/admin/users/<username>", methods=["GET", "PUT", "PATCH", "DELETE"])
 @flask_login.login_required
 def handler_user(username=""):
     if not flask_login.current_user.is_admin:
@@ -232,6 +236,9 @@ def handler_user(username=""):
         if args["customer"] not in customers:
             return "Customer doesn't exist", 400
         users[username] = APPUser(username, args["customer"], password=args["password"])
+        return "OK"
+    if flask.request.method == "DELETE":
+        users.pop(username)
         return "OK"
 
 

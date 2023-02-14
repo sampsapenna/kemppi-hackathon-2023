@@ -5,6 +5,8 @@ import AdminCustomers from "@/components/AdminCustomers"
 import EditUser from "@/components/EditUser"
 import CreateCustomer from "@/components/CreateCustomer"
 import FileTable from "@/components/FileTable"
+import ChangePassword from "@/components/ChangePassword"
+import UploadFile from "@/components/UploadFile"
 
 
 const admin_routes = [
@@ -29,6 +31,11 @@ const admin_routes = [
     component: EditUser,
   },
   {
+    path: "/admin/users/passwd/:username",
+    name: "Change password",
+    component: ChangePassword,
+  },
+  {
     path: "/admin/customers/new",
     name: "Add customer",
     component: CreateCustomer,
@@ -45,7 +52,12 @@ const app_routes = [
     path: "/app/:username/:customer",
     name: "Files",
     component: FileTable,
-  }
+  },
+  {
+    path: "/app/:username/:customer/upload",
+    name: "Upload",
+    component: UploadFile,
+  },
 ]
 
 export const app_router = new VueRouter({

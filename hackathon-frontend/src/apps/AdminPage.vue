@@ -8,25 +8,30 @@
 </template>
 
 <style>
+@import '~mdb-ui-kit/css/mdb.min.css';
 
 @font-face {
-    font-family: ProximaNovaFont;
-    src: url(@/assets/ProximaNovaFont.otf);
-  }
+  font-family: ProximaNovaFont;
+  src: url(@/assets/ProximaNovaFont.otf);
+}
 
-  @font-face {
-    font-family: MyriadProFont;
-    src: url(@/assets/MYRIADPRO-REGULAR.OTF)
-  }
+@font-face {
+  font-family: MyriadProFont;
+  src: url(@/assets/MYRIADPRO-REGULAR.OTF)
+}
 
-  .navbar {
-    background-color: black;
-    padding: 0;
-  }
+body {
+  font-family: ProximaNovaFont;
+}
 
-  #navlogo {
-    height: 10%;
-    width: 10%;
-  }
+.navbar {
+  background-color: black;
+  padding: 0;
+}
+
+#navlogo {
+  height: 10%;
+  width: 10%;
+}
   
 </style>

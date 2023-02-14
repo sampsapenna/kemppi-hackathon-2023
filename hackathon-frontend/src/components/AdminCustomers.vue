@@ -23,7 +23,7 @@
       <template #cell(actions)="row">
         <b-button
           variant="danger"
-          @click="console.log(`Deleting project ${row.item}`)"
+          @click="deleteCustomer(row.item.customer)"
         >
           Delete
         </b-button>
@@ -37,16 +37,43 @@ export default {
   name: "AdminCustomers",
   data() {
     return {
-      items: [
-        {"customer": "admin"},
-        {"customer": "test-customer"},
-      ],
+      items: [],
       fields: [
         {key: "customer", label: "Customer", sortable: true, sortDirection: "desc"},
         {key: "actions", label: "Actions"},
       ],
     }
   },
+  mounted() {
+    this.getCustomers()
+  },
+  methods: {
+    getCustomers() {
+      let path = "/api/admin/admin/customers"
+      let url = new URL(path, window.location)
+
+      fetch(url).then(resp => {
+        return resp.json()
+      }).then(ret => {
+        this.items = ret.reduce((items, item) => {
+          items.push({
+            customer: item,
+          })
+          return items
+        }, [])
+      })
+    },
+    deleteCustomer(customer) {
+      let path = `/api/admin/admin/customers/${customer}`
+      let url = new URL(path, window.location)
+      
+      fetch(url, {method: "DELETE"}).then(resp => {
+        console.log("Deleted customer.")
+        console.log(resp)
+        this.getCustomers()
+      })
+    }
+  }
 }
 </script>
 

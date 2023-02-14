@@ -2,7 +2,7 @@
   <div>
     <nav class="navbar">
       <img id="navlogo" alt="navlogo" src="@/assets/kemppi_log_neg.png">
-      <b-link :href="'#'">Logout</b-link>
+      <b-link id="logout" href="/logout">Logout</b-link>
     </nav>
     <div>
       <router-view></router-view>
@@ -18,36 +18,41 @@
 </script>
 
 <style>
+@import '~mdb-ui-kit/css/mdb.min.css';
 
 @font-face {
     font-family: ProximaNovaFont;
     src: url(@/assets/ProximaNovaFont.otf);
-  }
+}
 
-  @font-face {
-    font-family: MyriadProFont;
-    src: url(@/assets/MYRIADPRO-REGULAR.OTF)
-  }
+@font-face {
+  font-family: MyriadProFont;
+  src: url(@/assets/MYRIADPRO-REGULAR.OTF)
+}
 
-  .navbar {
-    background-color: black;
-    padding: 0;
-  }
+body {
+  font-family: ProximaNovaFont;
+}
 
-  #navlogo {
-    height: 10%;
-    width: 10%;
-  }
+.navbar {
+  background-color: black;
+  padding: 0;
+}
 
-  a {
-    margin-right: 20px;
-    text-decoration: none;
-    color: #ffff;
-    font-size: 90%;
-  }
+#navlogo {
+  height: 10%;
+  width: 10%;
+}
 
-  a:hover {
-    text-decoration: none;
-    color: #ffff;
-  }
+#logout {
+  margin-right: 20px;
+  text-decoration: none;
+  color: #ffff;
+  font-size: 90%;
+}
+
+#logout:hover {
+  text-decoration: none;
+  color: #ffff;
+}
 </style>

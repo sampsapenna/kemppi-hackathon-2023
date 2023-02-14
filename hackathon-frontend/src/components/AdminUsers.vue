@@ -23,7 +23,7 @@
       <template #cell(actions)="row">
         <b-button
           style="margin-right: 1%;"
-          @click="console.log(`Restoring password for ${row.item}`)"
+          :to="`/admin/users/passwd/${row.item.username}`"
         >
           Restore password
         </b-button>
@@ -49,16 +49,33 @@ export default {
   name: "AdminUsers",
   data() {
     return {
-      items: [
-        {"username": "admin"},
-        {"username": "test-user"},
-      ],
+      items: [],
       fields: [
         {key: "username", label: "Username", sortable: true, sortDirection: "desc"},
         {key: "actions", label: "Actions"},
       ],
     }
   },
+  mounted() {
+    this.getUsers()
+  },
+  methods: {
+    getUsers() {
+      let path = "/api/admin/admin/users"
+      let url = new URL(path, window.location)
+
+      fetch(url).then(resp => {
+        return resp.json()
+      }).then(ret => {
+        this.items = ret.reduce((items, item) => {
+          items.push({
+            username: item,
+          })
+          return items
+        }, [])
+      })
+    }
+  }
 }
 </script>
 
