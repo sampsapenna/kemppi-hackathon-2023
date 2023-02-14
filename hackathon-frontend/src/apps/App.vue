@@ -2,7 +2,7 @@
   <div>
     <nav class="navbar">
       <img id="navlogo" alt="navlogo" src="@/assets/kemppi_log_neg.png">
-      <b-link :href="'#'">Logout</b-link>
+      <b-link id="logout" :href="'#'">Logout</b-link>
     </nav>
     <div>
       <router-view></router-view>
@@ -39,14 +39,14 @@
     width: 10%;
   }
 
-  a {
+  #logout {
     margin-right: 20px;
     text-decoration: none;
     color: #ffff;
     font-size: 90%;
   }
 
-  a:hover {
+  #logout:hover {
     text-decoration: none;
     color: #ffff;
   }
