@@ -10,8 +10,8 @@
                 <input v-model="emailLogin" type="email" class="form-control" placeholder="Email" required>
                 <input v-model="passwordLogin" type="password" class="form-control" placeholder="Password" required>
                 <input type="submit" class="btn btn-primary" value="Login" @click="doLogin">
-                <p>Don't have an account? <a href="#"
-                    @click="registerActive = !registerActive, emptyFields = false">Sign up here</a>
+                <p>Don't have an account? 
+                  <a href="#" @click="registerActive = !registerActive, emptyFields = false">Sign up here</a>
                 </p>
               </form>
             </div>
@@ -22,11 +22,10 @@
               <form class="form-group">
                 <input v-model="emailReg" type="email" class="form-control" placeholder="Email" required>
                 <input v-model="passwordReg" type="password" class="form-control" placeholder="Password" required>
-                <input v-model="confirmReg" type="password" class="form-control" placeholder="Confirm Password"
-                  required>
+                <input v-model="confirmReg" type="password" class="form-control" placeholder="Confirm Password" required>
                 <input type="submit" class="btn btn-primary" value="Sign up" @click="doRegister">
-                <p>Already have an account? <a href="#"
-                    @click="registerActive = !registerActive, emptyFields = false">Login here</a>
+                <p>Already have an account? 
+                  <a href="#" @click="registerActive = !registerActive, emptyFields = false">Login here</a>
                 </p>
               </form>
             </div>
@@ -80,12 +79,12 @@
 
   .card.login {
     background-color: #000;
-    height: 90vh;
+    height: 80vh;
   }
 
   .card.register {
     background-color: #000;
-    height: 90vh;
+    height: 80vh;
   }
 
   .form-group {
