@@ -7,7 +7,7 @@
       <div class="container">
           <div class="col-lg-4 col-md-6 col-sm-8 mx-auto">
             <div v-if="!registerActive" class="card login" v-bind:class="{ error: emptyFields }">
-              <img alt="logo" src="@/assets/kemppi_log_neg.png">
+              <img id="logo" alt="logo" src="@/assets/kemppi_log_neg.png">
               <h1>Login</h1>
               <form action="/login" method="POST" class="form-group">
                 <input v-model="emailLogin" name="username" type="username" class="form-control" placeholder="Username" required>
@@ -20,7 +20,7 @@
             </div>
 
             <div v-else class="card register" v-bind:class="{ error: emptyFields }">
-              <img alt="logo" src="@/assets/kemppi_log_neg.png">
+              <img id="logo" alt="logo" src="@/assets/kemppi_log_neg.png">
               <h1>Sign Up</h1>
               <form action="/login/register" method="POST" class="form-group">
                 <input v-model="emailReg" name="username" type="username" class="form-control" placeholder="Username" required>
@@ -71,9 +71,19 @@
 </script>
 
 <style>
+
+  @font-face {
+    font-family: ProximaNovaFont;
+    src: url(@/assets/ProximaNovaFont.otf);
+  }
+
+  @font-face {
+    font-family: MyriadProFont;
+    src: url(@/assets/MYRIADPRO-REGULAR.OTF)
+  }
   
   .navbar {
-    height: 33px;
+    height: 50px;
     position: fixed;
     z-index: 2;
     top: 0;
@@ -82,18 +92,19 @@
     background-color: #000;
   }
 
-#navlogo {
-  height: 33px;
-  background-size: 100%;
-}
+  #navlogo {
+    height: 40px;
+    background-size: 100%;
+  }
 
   p {
     line-height: 1rem;
     color: #fff;
+    font-size: ProximaNovaFont;
   }
 
   .card {
-    padding: 20px;
+    padding: 5vh;
   }
 
   .card.login {
@@ -133,5 +144,6 @@
     margin-bottom: 1.5rem;
     text-align: center;
     color: #F57300;
+    font-family: ProximaNovaFont;
   }
 </style>

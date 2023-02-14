@@ -20,7 +20,8 @@ export default {
 #app {
   justify-content: flex;
   align-items: flex;
-  font-family: Avenir, Helvetica, Arial, sans-serif;
+  font-family: proxima nova, sans-serif;
+  url:();
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
