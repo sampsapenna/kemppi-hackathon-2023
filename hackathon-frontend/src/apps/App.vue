@@ -1,40 +1,53 @@
 <template>
   <div>
     <nav class="navbar">
-      <img id="logo" alt="Kemppi logo" src="@/assets/Kemppi_logo.png">
+      <img id="navlogo" alt="navlogo" src="@/assets/kemppi_log_neg.png">
+      <b-link :href="'#'">Logout</b-link>
     </nav>
     <div>
       <router-view></router-view>
     </div>
   </div>
-  
+
 </template>
 
 <script>
-export default {
-  name: 'TableSearch',
-}
+  export default {
+    name: 'TableSearch',
+  }
 </script>
 
 <style>
-#app {
-  justify-content: flex;
-  align-items: flex;
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
 
+@font-face {
+    font-family: ProximaNovaFont;
+    src: url(@/assets/ProximaNovaFont.otf);
+  }
 
-.navbar {
-  background-color: black;
-}
+  @font-face {
+    font-family: MyriadProFont;
+    src: url(@/assets/MYRIADPRO-REGULAR.OTF)
+  }
 
-#logo {
-  height: 20%;
-  width: 20%;
-}
+  .navbar {
+    background-color: black;
+    padding: 0;
+  }
+
+  #navlogo {
+    height: 10%;
+    width: 10%;
+  }
+
+  a {
+    margin-right: 20px;
+    text-decoration: none;
+    color: #ffff;
+    font-size: 90%;
+  }
+
+  a:hover {
+    text-decoration: none;
+    color: #ffff;
+  }
 </style>
