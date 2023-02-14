@@ -2,9 +2,9 @@
   <div>
     <nav class="navbar">
       <img id="logo" alt="Kemppi logo" src="@/assets/Kemppi_logo.png">
-</nav>
+    </nav>
     <div>
-      <b-table :items="items" :fields="fields"></b-table>
+      <router-view></router-view>
     </div>
   </div>
   

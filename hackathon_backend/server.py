@@ -149,9 +149,22 @@ def register():
     return flask.redirect("/")
 
 
-@app.route("/app")
-def get_app():
-    return "OK\n"
+@app.route("/app/<path:path>")
+@flask_login.login_required
+def get_app(path=""):
+    return flask.send_file("static/app.html")
+
+
+@app.route("/admin")
+@flask_login.login_required
+def get_admin_page(path=""):
+    return flask.send_file("static/admin.html")
+
+
+@app.route("/admin/<path:path>")
+@flask_login.login_required
+def get_admin_spa(path=""):
+    return flask.send_file("static/admin.html")
 
 
 @app.route('/api')
@@ -235,7 +248,16 @@ def list_files(username="", customer=""):
     if not client.bucket_exists(customer):
         client.make_bucket(customer)
     files = client.list_objects(customer)
-    return flask.jsonify(list(files))
+
+    ret = []
+
+    for file in files:
+        ret.append({
+            "name": file.object_name,
+            "size": file.size,
+        })
+
+    return flask.jsonify(ret)
 
 
 @app.route(
