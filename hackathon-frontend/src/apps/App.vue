@@ -5,6 +5,7 @@
       <b-link id="logout" href="/logout">Logout</b-link>
     </nav>
     <div id="approot">
+      <h1>Application and packages</h1>
       <router-view></router-view>
     </div>
   </div>
@@ -44,8 +45,14 @@ body {
   width: 10%;
 }
 
+h1 {
+  text-align: center;
+  margin-top: 2em;
+  margin-bottom: 1em;
+}
+
 #approot {
-    margin-top: 33px;
+  margin-top: 33px;
 }
 
 #logout {
