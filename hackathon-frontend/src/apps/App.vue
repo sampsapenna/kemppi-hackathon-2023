@@ -48,13 +48,6 @@ body {
     margin-top: 33px;
 }
 
-a {
-  margin-right: 20px;
-  text-decoration: none;
-  color: #ffff;
-  font-size: 90%;
-}
-
 #logout {
   margin-right: 20px;
   text-decoration: none;
