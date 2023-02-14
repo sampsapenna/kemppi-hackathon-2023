@@ -4,6 +4,8 @@ import AdminUsers from "@/components/AdminUsers"
 import AdminCustomers from "@/components/AdminCustomers"
 import EditUser from "@/components/EditUser"
 import CreateCustomer from "@/components/CreateCustomer"
+import FileTable from "@/components/FileTable"
+
 
 const admin_routes = [
   {
@@ -36,4 +38,17 @@ const admin_routes = [
 export const admin_router = new VueRouter({
   mode: "history",
   routes: admin_routes,
+})
+
+const app_routes = [
+  {
+    path: "/app/:username/:customer",
+    name: "Files",
+    component: FileTable,
+  }
+]
+
+export const app_router = new VueRouter({
+  mode: "history",
+  routes: app_routes,
 })

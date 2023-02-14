@@ -6,10 +6,10 @@
             <div v-if="!registerActive" class="card login" v-bind:class="{ error: emptyFields }">
               <img alt="logo" src="@/assets/kemppi_log_neg.png">
               <h1>Login</h1>
-              <form class="form-group">
-                <input v-model="emailLogin" type="email" class="form-control" placeholder="Email" required>
-                <input v-model="passwordLogin" type="password" class="form-control" placeholder="Password" required>
-                <input type="submit" class="btn btn-primary" value="Login" @click="doLogin">
+              <form action="/login" method="POST" class="form-group">
+                <input v-model="emailLogin" name="username" type="username" class="form-control" placeholder="Username" required>
+                <input v-model="passwordLogin" name="password" type="password" class="form-control" placeholder="Password" required>
+                <input type="submit" class="btn btn-primary" value="Login">
                 <p>Don't have an account? 
                   <a href="#" @click="registerActive = !registerActive, emptyFields = false">Sign up here</a>
                 </p>
@@ -19,11 +19,11 @@
             <div v-else class="card register" v-bind:class="{ error: emptyFields }">
               <img alt="logo" src="@/assets/kemppi_log_neg.png">
               <h1>Sign Up</h1>
-              <form class="form-group">
-                <input v-model="emailReg" type="email" class="form-control" placeholder="Email" required>
+              <form action="/login/register" method="POST" class="form-group">
+                <input v-model="emailReg" name="username" type="username" class="form-control" placeholder="Username" required>
                 <input v-model="passwordReg" type="password" class="form-control" placeholder="Password" required>
-                <input v-model="confirmReg" type="password" class="form-control" placeholder="Confirm Password" required>
-                <input type="submit" class="btn btn-primary" value="Sign up" @click="doRegister">
+                <input v-model="confirmReg" name="password" type="password" class="form-control" placeholder="Confirm Password" required>
+                <input type="submit" class="btn btn-primary" value="Sign up">
                 <p>Already have an account? 
                   <a href="#" @click="registerActive = !registerActive, emptyFields = false">Login here</a>
                 </p>
