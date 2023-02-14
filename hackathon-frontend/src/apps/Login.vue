@@ -81,20 +81,15 @@
     font-family: MyriadProFont;
     src: url(@/assets/MYRIADPRO-REGULAR.OTF)
   }
-  
+
   .navbar {
-    height: 50px;
-    position: fixed;
-    z-index: 2;
-    top: 0;
-    width: 100%;
-    overflow: hidden;
-    background-color: #000;
+    background-color: black;
+    padding: 0;
   }
 
   #navlogo {
-    height: 40px;
-    background-size: 100%;
+    height: 10%;
+    width: 10%;
   }
 
   p {
@@ -118,9 +113,9 @@
   }
 
   .form-group {
+    align-items: center;
     margin-top: 10px;
     margin-bottom: 20px;
-    align-items: center;
   }
 
   .form-control {
@@ -135,6 +130,7 @@
   }
 
   .login-page {
+    justify-content: center;
     align-items: center;
     display: flex;
     height: 100vh;
