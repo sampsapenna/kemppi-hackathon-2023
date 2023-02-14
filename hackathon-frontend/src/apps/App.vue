@@ -5,6 +5,7 @@
       <b-link :href="'#'">Logout</b-link>
     </nav>
     <div>
+      <h1>Application and packages</h1>
       <router-view></router-view>
     </div>
   </div>
@@ -37,6 +38,13 @@
   #navlogo {
     height: 10%;
     width: 10%;
+  }
+
+  h1 {
+    text-align: center;
+    font-family: ProximaNovaFont;
+    margin-top: 2em;
+    margin-bottom: 1em;
   }
 
   a {
