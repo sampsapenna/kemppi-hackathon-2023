@@ -1,13 +1,7 @@
 <template>
   <div id="app">
     <div class="login-page">
-      <transition name="fade">
-        <div v-if="!registerActive" class="background-login"></div>
-      </transition>
-      <div class="background-register"></div>
-
       <div class="container">
-        <div class="row">
           <div class="col-lg-4 col-md-6 col-sm-8 mx-auto">
             <div v-if="!registerActive" class="card login" v-bind:class="{ error: emptyFields }">
               <img alt="logo" src="@/assets/kemppi_log_neg.png">
@@ -30,7 +24,7 @@
                 <input v-model="passwordReg" type="password" class="form-control" placeholder="Password" required>
                 <input v-model="confirmReg" type="password" class="form-control" placeholder="Confirm Password"
                   required>
-                <input type="submit" class="btn btn-primary" value="Sign up"> @click="doRegister">
+                <input type="submit" class="btn btn-primary" value="Sign up" @click="doRegister">
                 <p>Already have an account? <a href="#"
                     @click="registerActive = !registerActive, emptyFields = false">Login here</a>
                 </p>
@@ -41,7 +35,6 @@
 
       </div>
     </div>
-  </div>
 </template>
 
 <script>
