@@ -1,5 +1,8 @@
 <template>
   <div id="app">
+    <nav class="navbar">
+      <img id="navlogo" alt="navlogo" src="@/assets/kemppi_log_neg.png">
+    </nav>
     <div class="login-page">
       <div class="container">
           <div class="col-lg-4 col-md-6 col-sm-8 mx-auto">
@@ -68,6 +71,22 @@
 </script>
 
 <style>
+  
+  .navbar {
+    height: 33px;
+    position: fixed;
+    z-index: 2;
+    top: 0;
+    width: 100%;
+    overflow: hidden;
+    background-color: #000;
+  }
+
+#navlogo {
+  height: 33px;
+  background-size: 100%;
+}
+
   p {
     line-height: 1rem;
     color: #fff;

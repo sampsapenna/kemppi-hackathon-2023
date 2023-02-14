@@ -28,13 +28,18 @@ export default {
   margin-top: 60px;
 }
 
-
 .navbar {
-  background-color: black;
-}
+    height: 33px;
+    position: fixed;
+    z-index: 2;
+    top: 0;
+    width: 100%;
+    overflow: hidden;
+    background-color: #000;
+  }
 
 #navlogo {
-  height: 20%;
-  width: 20%;
+  height: 33px;
+  background-size: 100%;
 }
 </style>
