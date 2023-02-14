@@ -43,10 +43,26 @@ class APPUser(flask_login.UserMixin):
             password.encode("utf-8"),
             salt=self._salt,
         ).hexdigest()
+        self._owns_customers = set([])
 
     @property
     def is_admin(self):
         return self._admin
+
+    def is_admin_of(self, customer):
+        """Check if the user is an admin of specified customer."""
+        return customer in self._owns_customers
+
+    def make_admin_of(self, customer):
+        """Make user the admin of the specified customer."""
+        self._owns_customers.add(customer)
+
+    def unmake_admin_of(self, customer):
+        """Remove user from admins of the specified customer."""
+        self._owns_customers.remove(customer)
+
+    def get_admins_of(self):
+        """List what customers the user is an admin of."""
  
     def set_password(self, password):
         """Set password for application user."""
@@ -81,6 +97,11 @@ admin_raw_password = os.environ.get("SOFTWARE_MANAGER_ADMIN_PASSWORD", "password
 
 users = {
     admin_username: APPUser("admin", "admin", admin_raw_password, True)
+}
+
+
+customers = {
+    "admin",
 }
 
 
@@ -126,9 +147,41 @@ def get_index():
 @flask_login.login_required
 def list_users():
     print(flask_login.current_user.id)
-    if flask_login.current_user.id != "admin":
+    if not flask_login.current_user.is_admin:
         return
     return flask.jsonify(list(users.keys()))
+
+
+@app.route("/api/admin/admin/customers")
+@flask_login.login_required
+def list_customers():
+    if not flask_login.current_user.is_admin:
+        return
+    return flask.jsonify(customers)
+
+
+@app.route("/api/admin/admin/customers/<customername>", methods=["PUT", "DELETE"])
+@flask_login.login_required
+def handler_customer(customername=""):
+    if not flask_login.current_user.is_admin:
+        return
+
+    if flask.request.method == "PUT":
+        if not client.bucket_exists(customername):
+            client.make_bucket(customername)
+        customers.add(customername)
+
+    if flask.request.method == "DELETE":
+        if client.bucket_exists(customername):
+            client.remove_objects(
+                customername,
+                list(filter(
+                    lambda x: x["name"],
+                    list(client.list_objects(customername))
+                ))
+            )
+            client.remove_bucket(customername)
+        customers.remove(customername)
 
 
 @app.route("/api/admin/admin/users/<username>", methods=["GET", "PUT", "PATCH"])
@@ -147,6 +200,8 @@ def handler_user(username=""):
         args = flask.request.get_json()
         if not client.bucket_exists(args["customer"]):
             client.make_bucket(args["customer"])
+        if args["customer"] not in customers:
+            return "Customer doesn't exist", 400
         users[username] = APPUser(username, args["customer"], password=args["password"])
         return "OK"
 
@@ -174,6 +229,8 @@ def list_files(username="", customer=""):
 @flask_login.login_required
 def handle_file(username="", customer="", filename=""):
     """Handle file operations."""
+    if customer not in customers:
+        return "Customer doesn't exist.", 404
     if not flask_login.current_user.get_customer() == customer and not flask_login.current_user.is_admin:
         return "Forbidden, incorrect customer.", 403
     if flask.request.method == "GET":

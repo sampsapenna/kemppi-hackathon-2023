@@ -15,6 +15,13 @@ module.exports = defineConfig({
       filename: "app.html",
       title: "Kemppi software management portal – Application",
       chunks: ["chunk-vendors", "chunk-common", "app"],
-    }
-  }
+    },
+    admin: {
+      entry: "src/entries/admin.js",
+      template: "pubic/index.html",
+      filename: "admin.html",
+      title: "Kemppi software management portal – Administration",
+      chunks: ["chunk-vendors", "chunk-common", "admin"],
+    },
+  },
 })

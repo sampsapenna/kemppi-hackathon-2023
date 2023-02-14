@@ -2,19 +2,10 @@
   <div>
     <nav class="navbar">
       <img id="logo" alt="Kemppi logo" src="@/assets/Kemppi_logo.png">
-</nav>
-    <div>
-      <b-table :items="items" :fields="fields"></b-table>
-    </div>
+    </nav>
+    <router-view></router-view>
   </div>
-  
 </template>
-
-<script>
-export default {
-  name: 'TableSearch',
-}
-</script>
 
 <style>
 #app {
@@ -27,7 +18,6 @@ export default {
   color: #2c3e50;
   margin-top: 60px;
 }
-
 
 .navbar {
   background-color: black;
