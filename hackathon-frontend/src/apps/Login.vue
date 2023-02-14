@@ -139,6 +139,14 @@ p {
   align-items: center;
   display: flex;
   height: 100vh;
+  margin-top: 33px;
+}
+
+.login-page {
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  height: 100vh;
 }
 
 h1 {
