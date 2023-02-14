@@ -122,15 +122,31 @@ def request_loader(request):
     return users[user_id]
 
 
-@app.route("/login", methods=["POST"])
+@app.route("/")
+def index():
+    return flask.send_file("static/index.html")
+
+
+@app.route("/login", methods=["GET", "POST"])
 def login():
+    if flask.request.method == "GET":
+        flask.send_file("static/index.html")
+    if flask.request.method == "POST":
+        username = flask.request.form["username"]
+        password = flask.request.form["password"]
+        if username in users and users[username].check_password(password):
+            flask_login.login_user(users[username])
+            return flask.redirect(f"/app/{username}/{users[username].get_customer()}")
+        else:
+            return flask.redirect("/unauthorized")
+
+
+@app.route("/login/register", methods=["POST"])
+def register():
     username = flask.request.form["username"]
     password = flask.request.form["password"]
-    if username in users and users[username].check_password(password):
-        flask_login.login_user(users[username])
-        return flask.redirect(f"/app/{username}/{users[username].get_customer()}")
-    else:
-        return flask.redirect("/unauthorized")
+    users[username] = APPUser(username, username, password=password)
+    return flask.redirect("/")
 
 
 @app.route("/app")
